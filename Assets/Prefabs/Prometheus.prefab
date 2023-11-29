@@ -49,11 +49,11 @@ GameObject:
   - component: {fileID: 6169254692188783606}
   m_Layer: 0
   m_Name: Prometheus
-  m_TagString: Untagged
+  m_TagString: Player
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
-  m_IsActive: 1
+  m_IsActive: 0
 --- !u!4 &261786959625234688
 Transform:
   m_ObjectHideFlags: 0
@@ -166,8 +166,8 @@ BoxCollider:
   m_ProvidesContacts: 0
   m_Enabled: 1
   serializedVersion: 3
-  m_Size: {x: 2.3536797, y: 1.6766776, z: 6.0231123}
-  m_Center: {x: 0.03188896, y: 0.82556254, z: -0.19032383}
+  m_Size: {x: 2.3536797, y: 1.5548612, z: 6.0231123}
+  m_Center: {x: 0.03188896, y: 0.88647074, z: -0.19032383}
 --- !u!1 &934883528070179459
 GameObject:
   m_ObjectHideFlags: 0

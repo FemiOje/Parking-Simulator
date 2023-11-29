@@ -4,7 +4,6 @@ using UnityEngine;
 
 public class ColliderCheck : MonoBehaviour
 {
-    public Collider targetCollider;
     public AudioSource winAudioSource;
     public AudioClip winAudioClip;
     public ParticleSystem[] winParticles;
@@ -14,7 +13,7 @@ public class ColliderCheck : MonoBehaviour
 
     private void OnTriggerEnter(Collider other)
     {
-        if (other == targetCollider)
+        if (other.gameObject.CompareTag("Player"))
         {
             isInside = true;
         }
@@ -22,7 +21,7 @@ public class ColliderCheck : MonoBehaviour
 
     private void OnTriggerExit(Collider other)
     {
-        if (other == targetCollider)
+        if (other.gameObject.CompareTag("Player"))
         {
             isInside = false;
             currentTimeInside = 0.0f;
