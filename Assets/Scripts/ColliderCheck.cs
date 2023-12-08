@@ -10,40 +10,71 @@ public class ColliderCheck : MonoBehaviour
     public float requiredTimeInside = 2.0f;
     private float currentTimeInside = 0.0f;
     private bool isInside = false;
+    private bool hasPlayedParticles = false;
+    public float particleCooldown = 5.0f;
+
+    private bool isParkTriggerFrontActive = false;
+    private bool isParkTriggerBackActive = false;
 
     private void OnTriggerEnter(Collider other)
     {
-        if (other.gameObject.CompareTag("Player"))
+        if (other.gameObject.CompareTag("ParkTriggerFront"))
         {
-            isInside = true;
+            isParkTriggerFrontActive = true;
+        }
+
+        if (other.gameObject.CompareTag("ParkTriggerBack"))
+        {
+            isParkTriggerBackActive = true;
         }
     }
 
     private void OnTriggerExit(Collider other)
     {
-        if (other.gameObject.CompareTag("Player"))
+
+        if (other.gameObject.CompareTag("ParkTriggerFront"))
         {
-            isInside = false;
+            isParkTriggerFrontActive = false;
+        }
+
+        if (other.gameObject.CompareTag("ParkTriggerBack"))
+        {
+            isParkTriggerBackActive = false;
+        }
+
+        if (isParkTriggerFrontActive && isParkTriggerBackActive)
+        {
+            isParkTriggerFrontActive = false;
+            isParkTriggerBackActive = false;
             currentTimeInside = 0.0f;
+            hasPlayedParticles = false;
         }
     }
 
     private void Update()
     {
-        if (isInside)
+        if (isParkTriggerFrontActive && isParkTriggerBackActive)
         {
             currentTimeInside += Time.deltaTime;
 
-            if (currentTimeInside >= requiredTimeInside)
+            if (currentTimeInside >= requiredTimeInside && !hasPlayedParticles)
             {
-                // The entire collider has been inside for the required time
-                Debug.Log("Collider is completely inside for the required time!");
+                Debug.Log("Both triggers are completely inside for the required time!");
                 winAudioSource.PlayOneShot(winAudioClip);
+
                 for (int i = 0; i < winParticles.Length; i++)
                 {
-                    winParticles[i].Play();
+                    StartCoroutine(PlayParticleWithDelay(winParticles[i], Random.Range(0.0f, particleCooldown)));
                 }
+
+                hasPlayedParticles = true;
             }
         }
+    }
+
+    private IEnumerator PlayParticleWithDelay(ParticleSystem particleSystem, float delay)
+    {
+        yield return new WaitForSeconds(delay);
+        particleSystem.Play();
     }
 }
